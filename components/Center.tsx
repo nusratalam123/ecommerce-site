@@ -1,11 +1,12 @@
-import styled from "styled-components";
 import React, { ReactNode } from "react";
+import styled from "styled-components";
 
-const styledDiv = styled.div`
-  maxwidth: 800px;
-  margin: 0 ;
+const StyledDiv = styled.div`
+  max-width: 90%;
+  margin: 0 auto;
+  padding: 0 20px;
 `;
 
 export default function Center({ children }: { children: ReactNode }) {
-  return <div>{children}</div>;
+  return <StyledDiv>{children}</StyledDiv>;
 }
