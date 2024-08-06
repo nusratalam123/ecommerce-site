@@ -13,7 +13,7 @@ export default function Login() {
           <div className={styles.card}>
             <div className={styles.cardHeader}>
               <h1 className={styles.title}>
-                Welcome to our website! Please Login
+                Welcome to our website! Please Sign up
               </h1>
             </div>
 
@@ -45,14 +45,13 @@ export default function Login() {
                   />
                   <div
                     className={styles.eyeIcon}
-                    onClick={() => setShowPassword((prev) => !prev)}
                     // onClick={() => setShowPassword((prev) => !prev)}
                   >
                     <span>{showPassword ? <FaEyeSlash /> : <FaEye />}</span>
-                    {/* <span>{showPassword ? <FaEyeSlash /> : <FaEye />}</span> */}
                   </div>
                 </div>
-                <Link href="/forgot-password" className={styles.forgotPassword}>Forgot password?
+                <Link href="/forgot-password" className={styles.forgotPassword}>
+                  Forgot password?
                 </Link>
               </div>
 
@@ -61,8 +60,8 @@ export default function Login() {
 
             <p className="my-5">
               {/* Don't have account?{" "} */}
-              <Link href="/Signup"
-                 className={styles.signUpLink}>Sign up
+              <Link href="/signup" className={styles.signUpLink}>
+                Sign up
               </Link>
             </p>
           </div>
