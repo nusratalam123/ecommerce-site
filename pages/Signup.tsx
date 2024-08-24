@@ -4,11 +4,15 @@ import { useState } from "react";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
 import styles from "../styles/signup.module.css";
+import axios from "axios";
+import summaryAPI from "@/common";
+import router from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
+  const router = useRouter();
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -26,8 +30,38 @@ export default function Signup() {
     });
   };
 
-  const handleOnSubmit = (e: any) => {
+  const handleOnSubmit = async (e: any) => {
     e.preventDefault();
+
+    try {
+      
+      const dataResponse=await axios.post("http://localhost:7000/api/v1/auth/signup", data );
+      console.log("data", dataResponse.data);
+      router.push("/Login");
+    } catch (err) {
+      console.error(err);
+    }
+    // if (data.password === data.confirmPassword) {
+      
+    //    const dataResponse: Response = await fetch(
+    //      "localhost:7000/api/v1/auth/signup",
+    //      {
+    //        method: summaryAPI.signUP.method,
+    //        headers: {
+    //          "Content-Type": "application/json",
+    //        },
+    //        body: JSON.stringify(data),
+    //      }
+    //    );
+
+    //    const responseData = await dataResponse.json();
+    //    console.log(responseData);
+    // } else {
+    //   console.log("password or confirm password not matched");
+    // }
+
+
+   
   };
 
   const handleUploadPic = async (e: any) => {
