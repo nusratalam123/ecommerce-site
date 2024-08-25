@@ -35,9 +35,20 @@ export default function Signup() {
 
     try {
       
-      const dataResponse=await axios.post("http://localhost:7000/api/v1/auth/signup", data );
-      console.log("data", dataResponse.data);
-      router.push("/Login");
+      setShowConfirmPassword(true)
+      if(data.password === data.confirmPassword){
+        const dataResponse = await axios.post(
+          "http://localhost:7000/api/v1/auth/signup",
+          data
+        );
+        console.log("data", dataResponse.data);
+        router.push("/Login");
+      }
+
+      else {
+        console.log("password or confirm password does not match");
+      }
+      
     } catch (err) {
       console.error(err);
     }
