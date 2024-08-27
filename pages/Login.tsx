@@ -1,12 +1,17 @@
 /* eslint-disable react/no-unescaped-entities */
+import axios from "axios";
+import Cookies from "js-cookie";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
+import { toast } from "react-toastify";
 import styles from "../styles/login.module.css";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -20,8 +25,50 @@ export default function Login() {
     });
   };
 
-  const handleOnSubmit = (e: any) => {
+  const handleOnSubmit = async (e: any) => {
     e.preventDefault();
+
+    if (!data.email || !data.password) {
+      console.log("Please enter all the fields");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "http://localhost:7000/api/v1/auth/login",
+        data,
+        { withCredentials: true }
+      );
+
+      const token = (response.data as { token: string }).token;
+
+      Cookies.set("Token", token);
+     // console.log("response", response.data);
+      toast.success("Login successful", {
+        position: "top-right",
+        autoClose: 5000,
+      });
+
+      // Redirect to a designated "logged in" page after success
+        router.push("/"); // Replace with your intended page
+    } catch (err) {
+      console.log("error", err);
+      let errorMessage = "Login failed.";
+
+      // Handle specific errors based on API response (if available)
+      //  if (err.response?.status === 401) {
+      //    errorMessage = "Invalid email or password.";
+      //  } else if (err.response?.data?.message) {
+      //    errorMessage = err.response.data.message;
+      //  }
+
+      toast.error(errorMessage, {
+        position: "top-right",
+        autoClose: 5000,
+      });
+    }
+
+    //console.log(data);
   };
   return (
     <>
@@ -42,6 +89,7 @@ export default function Login() {
                     type="email"
                     placeholder="enter email"
                     name="email"
+                    required
                     value={data.email}
                     onChange={handleOnChange}
                     className={styles.input}
@@ -59,6 +107,7 @@ export default function Login() {
                     placeholder="enter password"
                     value={data.password}
                     name="password"
+                    required
                     onChange={handleOnChange}
                     className={styles.input}
                   />
