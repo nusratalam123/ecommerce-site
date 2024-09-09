@@ -42,7 +42,6 @@ export default function Login() {
 
       const token = (response.data as { token: string }).token;
 
-      Cookies.set("Token", token);
      // console.log("response", response.data);
       toast.success("Login successful", {
         position: "top-right",
