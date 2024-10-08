@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import Context from "@/context";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,8 +21,8 @@ export default function Home() {
 
   const [user, setUser] = useState(null);
 
-  const userDetails = async () => {
-    try {
+  // const userDetails = async () => {
+  //   try {
       // const response = await axios.get(
       //   "http://localhost:7000/api/v1/auth/current-user",
       //   {
@@ -43,10 +44,39 @@ export default function Home() {
       // } else {
       //   console.error('Error fetching user data:', response.status, response.statusText);
       // }
-    } catch (err) {
-      console.error('Error fetching user data:', err);
-    }
-  }
+  //   } catch (err) {
+  //     console.error('Error fetching user data:', err);
+  //   }
+  // }
+
+
+
+const userDetails = async () => {
+
+   try {
+     // Making a request to the backend with cookies automatically included
+     const token = Cookies.get("token");
+     console.log("Token:", token);
+     const response = await axios.get(
+       "http://localhost:7000/api/v1/auth/current-user",
+       {
+         headers: {
+           authorization: `Bearer ${token}`,
+         },
+         withCredentials: true, // Ensures the httpOnly cookie is sent with the request
+       }
+     );
+
+     console.log("User data:", response.data);
+   } catch (err) {
+     console.error("Error fetching user data:", err);
+   }
+ };
+
+
+
+
+
 
   useEffect(() => {
     userDetails();
@@ -54,12 +84,13 @@ export default function Home() {
 
   return (
     <>
-      <ToastContainer />
-      <Head></Head>
-      {/* <Header></Header> */}
-      <Featured />
-
-      <Footer></Footer>
+      <Context.Provider value={{ userDetails}}>
+        <ToastContainer />
+        <Head></Head>
+        {/* <Header></Header> */}
+        <Featured />
+        <Footer></Footer>
+      </Context.Provider>
     </>
   );
 }

@@ -7,10 +7,6 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { toast } from "react-toastify";
 import styles from "../styles/signup.module.css";
 
-// Custom type guard to check if the error is an AxiosError
-function isAxiosError(error: any): error is axios.AxiosError {
-  return error.isAxiosError || (error.response && error.response.data);
-}
 
 // Custom type guard to check if the error is an AxiosError
 
@@ -59,33 +55,7 @@ export default function Signup() {
       });
       router.push("/Login");
     } catch (err) {
-      if (isAxiosError(err)) {
-        // const axiosError = err as AxiosError;
-
-        // Handling case where email already exists
-        if (err.response?.status === 409) {
-          // Assuming 409 is the status for conflict
-          toast.error("Email already exists", {
-            position: "top-right",
-            autoClose: 5000,
-          });
-        } else {
-          const errorMessage = err.response?.data?.message || err.message;
-          const errorStatus = err.response?.status;
-
-          console.error("Axios error:", err);
-          toast.error(`Error ${errorStatus}: ${errorMessage}`, {
-            position: "top-right",
-            autoClose: 5000,
-          });
-        }
-      } else {
-        console.error("General error:", err);
-        toast.error("An unknown error occurred", {
-          position: "top-right",
-          autoClose: 5000,
-        });
-      }
+      console.log("error", err);
     }
   };
 

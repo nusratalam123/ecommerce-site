@@ -7,7 +7,6 @@ import { useContext, useState } from "react";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
 import { toast } from "react-toastify";
-import styles from "../styles/login.module.css";
 import Context from "@/context";
 
 export default function Login() {
@@ -17,9 +16,8 @@ export default function Login() {
     email: "",
     password: "",
   });
-  const userDetails = useContext(Context)
+  const userDetails = useContext(Context);
 
-  
   const handleOnChange = (e: any) => {
     const { name, value } = e.target;
     setData({
@@ -50,7 +48,7 @@ export default function Login() {
 
       const token = (response.data as { token: string }).token;
 
-     console.log("response", response.data);
+      console.log("response", response.data);
       toast.success("Login successful", {
         position: "top-right",
         autoClose: 5000,
@@ -58,7 +56,7 @@ export default function Login() {
 
       // Redirect to a designated "logged in" page after success
       router.push("/"); // Replace with your intended page
-      userDetails?.userDetails()
+      userDetails?.userDetails();
     } catch (err) {
       console.log("error", err);
       let errorMessage = "Login failed.";
@@ -81,9 +79,12 @@ export default function Login() {
   return (
     <>
       <section id="login">
-        <div className="mx-auto container p-10">
+        <div className="mx-auto container p-4">
           <div className="bg-white p-5 w-full max-w-sm mx-auto">
             <div className="w-20 h-20 mx-auto">
+              <h1>
+                Welcome to our website! Please Login
+              </h1>
               {/* <img src={loginIcons} alt="login icons" /> */}
             </div>
 
@@ -120,11 +121,8 @@ export default function Login() {
                     <span>{showPassword ? <FaEyeSlash /> : <FaEye />}</span>
                   </div>
                 </div>
-                <Link
-                  href={"/"}
-                  className="block w-fit ml-auto hover:underline hover:text-red-600"
-                >
-                  Forgot password ?
+                <Link href="/forgot-password" className="block w-fit ml-auto hover:underline hover:text-red-600">
+                  Forgot password?
                 </Link>
               </div>
 
@@ -135,12 +133,10 @@ export default function Login() {
 
             <p className="my-5">
               Don't have account ?{" "}
-              <Link
-              href={"Signup/signup"}
-                className=" text-red-600 hover:text-red-700 hover:underline"
-              >
+
+              <Link href="/Signup/signup" className=" text-red-600 hover:text-red-700 hover:underline">
                 Sign up
-              </Link>
+              </Link> 
             </p>
           </div>
         </div>
